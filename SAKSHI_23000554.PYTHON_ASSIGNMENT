@@ -1,0 +1,514 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "b82a354d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 37,
+   "id": "f762ffb8",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'year': [2021, 2021, 2021, 2021, 2022, 2022, 2022, 2022],\n",
+       " 'quarter': ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4'],\n",
+       " 'Sales_online': [12000, 13000, 15000, 20000, 13000, 16000, 17000, 24000],\n",
+       " 'Sales_instore': [13000, 12000, 17000, 18000, 15000, 19000, 23000, 25000],\n",
+       " 'Expenses_online': [4000, 6000, 8000, 9000, 11000, 7000, 8000, 12000],\n",
+       " 'Expenses_instore': [4300, 5260, 7272, 7382, 12000, 9000, 10000, 8900]}"
+      ]
+     },
+     "execution_count": 37,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data = {'year':[2021,2021,2021,2021,2022,2022,2022,2022],'quarter':['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'],'Sales_online':[12000,13000,15000,20000,13000,16000,17000,24000],'Sales_instore':[13000,12000,17000,18000,15000,19000,23000,25000],'Expenses_online':[4000,6000,8000,9000,11000,7000,8000,12000],'Expenses_instore':[4300,5260,7272,7382,12000,9000,10000,8900]}\n",
+    "data\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "d61bd15e",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>year</th>\n",
+       "      <th>quarter</th>\n",
+       "      <th>Sales_online</th>\n",
+       "      <th>Sales_instore</th>\n",
+       "      <th>Expenses_online</th>\n",
+       "      <th>Expenses_instore</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>2021</td>\n",
+       "      <td>Q1</td>\n",
+       "      <td>12000</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>4000</td>\n",
+       "      <td>4300</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>2021</td>\n",
+       "      <td>Q2</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>12000</td>\n",
+       "      <td>6000</td>\n",
+       "      <td>5260</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>2021</td>\n",
+       "      <td>Q3</td>\n",
+       "      <td>15000</td>\n",
+       "      <td>17000</td>\n",
+       "      <td>8000</td>\n",
+       "      <td>7272</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>2021</td>\n",
+       "      <td>Q4</td>\n",
+       "      <td>20000</td>\n",
+       "      <td>18000</td>\n",
+       "      <td>9000</td>\n",
+       "      <td>7382</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>2022</td>\n",
+       "      <td>Q1</td>\n",
+       "      <td>13000</td>\n",
+       "      <td>15000</td>\n",
+       "      <td>11000</td>\n",
+       "      <td>12000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>2022</td>\n",
+       "      <td>Q2</td>\n",
+       "      <td>16000</td>\n",
+       "      <td>19000</td>\n",
+       "      <td>7000</td>\n",
+       "      <td>9000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>6</th>\n",
+       "      <td>2022</td>\n",
+       "      <td>Q3</td>\n",
+       "      <td>17000</td>\n",
+       "      <td>23000</td>\n",
+       "      <td>8000</td>\n",
+       "      <td>10000</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>7</th>\n",
+       "      <td>2022</td>\n",
+       "      <td>Q4</td>\n",
+       "      <td>24000</td>\n",
+       "      <td>25000</td>\n",
+       "      <td>12000</td>\n",
+       "      <td>8900</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   year quarter  Sales_online  Sales_instore  Expenses_online  \\\n",
+       "0  2021      Q1         12000          13000             4000   \n",
+       "1  2021      Q2         13000          12000             6000   \n",
+       "2  2021      Q3         15000          17000             8000   \n",
+       "3  2021      Q4         20000          18000             9000   \n",
+       "4  2022      Q1         13000          15000            11000   \n",
+       "5  2022      Q2         16000          19000             7000   \n",
+       "6  2022      Q3         17000          23000             8000   \n",
+       "7  2022      Q4         24000          25000            12000   \n",
+       "\n",
+       "   Expenses_instore  \n",
+       "0              4300  \n",
+       "1              5260  \n",
+       "2              7272  \n",
+       "3              7382  \n",
+       "4             12000  \n",
+       "5              9000  \n",
+       "6             10000  \n",
+       "7              8900  "
+      ]
+     },
+     "execution_count": 38,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "financial_data = pd.DataFrame(data)\n",
+    "financial_data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "5cba5306",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Online Sales for q1 2022: 13000\n",
+      "Instore Expenses for q3 2021: 7272\n",
+      "Total Sales for q4 2021: 38000\n",
+      "Total expenses for the online channel in 2022: 38000\n",
+      "sales data for q2 2021:\n",
+      "    Sales_online  Sales_instore\n",
+      "1         13000          12000\n",
+      "Maximum expense of 2022: 12000\n"
+     ]
+    }
+   ],
+   "source": [
+    "# a) Online sales for Q1 2022\n",
+    "online_sales_q1_2022 = financial_data[(financial_data[\"year\"] == 2022) & (financial_data[\"quarter\"] == \"Q1\")][\"Sales_online\"].values[0]\n",
+    "print(\"Online Sales for q1 2022:\",online_sales_q1_2022)\n",
+    "# b) In-store expenses in Q3 2021\n",
+    "Instore_Expenses = financial_data[(financial_data[\"year\"] == 2021) & (financial_data[\"quarter\"] == \"Q3\")][\"Expenses_instore\"].values[0]\n",
+    "print(\"Instore Expenses for q3 2021:\",Instore_Expenses)\n",
+    "# c) Total sales for Q4 2021\n",
+    "total_sales_q4_2021 = financial_data[(financial_data[\"year\"] == 2021) & (financial_data[\"quarter\"] == \"Q4\")][[\"Sales_online\", \"Sales_instore\"]].sum().sum()\n",
+    "print(\"Total Sales for q4 2021:\",total_sales_q4_2021)\n",
+    "# d) Expenses for the online channel in 2022\n",
+    "expenses_online_2022 = financial_data[financial_data[\"year\"] == 2022][\"Expenses_online\"].sum()\n",
+    "print(\"Total expenses for the online channel in 2022:\", expenses_online_2022)\n",
+    "# e) Sales data for Q2 2021\n",
+    "sales_q2_2021 = financial_data[(financial_data[\"year\"] == 2021) & (financial_data[\"quarter\"] == \"Q2\")][[\"Sales_online\",\"Sales_instore\"]]\n",
+    "print(\"sales data for q2 2021:\\n\", sales_q2_2021)\n",
+    "# f) Maximum expense recorded in 2022\n",
+    "max_expense_2022 = financial_data[financial_data[\"year\"] == 2022][[\"Expenses_online\", \"Expenses_instore\"]].max().max()\n",
+    "print(\"Maximum expense of 2022:\",max_expense_2022)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "id": "9d00725f",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Stacked DataFrame:\n",
+      " Store   Product        \n",
+      "Store1  ProductA  Sales    200\n",
+      "        ProductB  Sales    150\n",
+      "Store2  ProductA  Sales    300\n",
+      "        ProductB  Sales    250\n",
+      "dtype: int64\n",
+      "\n",
+      "Unstacked DataFrame:\n",
+      " Store           Store1  Store2\n",
+      "Product                       \n",
+      "ProductA Sales     200     300\n",
+      "ProductB Sales     150     250\n"
+     ]
+    }
+   ],
+   "source": [
+    "#q2\n",
+    "store_data = {\n",
+    "    \"Store\": [\"Store1\", \"Store1\", \"Store2\", \"Store2\"],\n",
+    "    \"Product\": [\"ProductA\", \"ProductB\", \"ProductA\", \"ProductB\"],\n",
+    "    \"Sales\": [200, 150, 300, 250]\n",
+    "}\n",
+    "\n",
+    "df_store = pd.DataFrame(store_data)\n",
+    "\n",
+    "stacked_df = df_store.set_index(['Store', 'Product']).stack()\n",
+    "\n",
+    "#3\n",
+    "unstacked_df = stacked_df.unstack(level=0)\n",
+    "\n",
+    "print(\"Stacked DataFrame:\\n\", stacked_df)\n",
+    "print(\"\\nUnstacked DataFrame:\\n\", unstacked_df)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "id": "720a00d9",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Multi-Index DataFrame:\n",
+      "                      Employee\n",
+      "Department Role              \n",
+      "HR         Manager      Alice\n",
+      "           Assistant      Bob\n",
+      "IT         Developer  Charlie\n",
+      "           Analyst       Dave\n"
+     ]
+    }
+   ],
+   "source": [
+    "#4\n",
+    "employee_data = {\n",
+    "    \"Department\": [\"HR\", \"HR\", \"IT\", \"IT\"],\n",
+    "    \"Role\": [\"Manager\", \"Assistant\", \"Developer\", \"Analyst\"],\n",
+    "    \"Employee\": [\"Alice\", \"Bob\", \"Charlie\", \"Dave\"]\n",
+    "}\n",
+    "\n",
+    "employee_df = pd.DataFrame(employee_data).set_index([\"Department\", \"Role\"])\n",
+    "print(\"Multi-Index DataFrame:\\n\", employee_df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "id": "5f1db888",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "HR Department Employees:\n",
+      "           Employee\n",
+      "Role              \n",
+      "Manager      Alice\n",
+      "Assistant      Bob\n"
+     ]
+    }
+   ],
+   "source": [
+    "#5\n",
+    "hr_employees = employee_df.loc[\"HR\"]\n",
+    "print(\"HR Department Employees:\\n\", hr_employees)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "id": "85db77ab",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Sorted Grades DataFrame:\n",
+      "    Student  Subject  Grade\n",
+      "2  Charlie     Math     78\n",
+      "0    Alice     Math     88\n",
+      "3     Dave  Science     85\n",
+      "1      Bob  Science     92\n"
+     ]
+    }
+   ],
+   "source": [
+    "#6\n",
+    "grades_data = {\n",
+    "    \"Student\": [\"Alice\", \"Bob\", \"Charlie\", \"Dave\"],\n",
+    "    \"Subject\": [\"Math\", \"Science\", \"Math\", \"Science\"],\n",
+    "    \"Grade\": [88, 92, 78, 85]\n",
+    "}\n",
+    "\n",
+    "grades_df = pd.DataFrame(grades_data).sort_values(by=[\"Subject\", \"Grade\"])\n",
+    "print(\"Sorted Grades DataFrame:\\n\", grades_df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "id": "60ff0961",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Reset Index DataFrame:\n",
+      "    Student  Subject  Grade\n",
+      "0  Charlie     Math     78\n",
+      "1    Alice     Math     88\n",
+      "2     Dave  Science     85\n",
+      "3      Bob  Science     92\n"
+     ]
+    }
+   ],
+   "source": [
+    "#7\n",
+    "reset_grades_df = grades_df.reset_index(drop=True)\n",
+    "print(\"Reset Index DataFrame:\\n\", reset_grades_df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "id": "3605e553",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Weather DataFrame with Date as Index:\n",
+      "             Temperature  Humidity\n",
+      "Date                             \n",
+      "2022-01-01           22        30\n",
+      "2022-01-02           21        45\n",
+      "2022-01-03           19        50\n"
+     ]
+    }
+   ],
+   "source": [
+    "#8\n",
+    "weather_data = {\n",
+    "    \"Date\": [\"2022-01-01\", \"2022-01-02\", \"2022-01-03\"],\n",
+    "    \"Temperature\": [22, 21, 19],\n",
+    "    \"Humidity\": [30, 45, 50]\n",
+    "}\n",
+    "\n",
+    "# Create DataFrame and set Date column as index\n",
+    "weather_df = pd.DataFrame(weather_data)\n",
+    "weather_df[\"Date\"] = pd.to_datetime(weather_df[\"Date\"])\n",
+    "weather_df.set_index(\"Date\", inplace=True)\n",
+    "print(\"Weather DataFrame with Date as Index:\\n\", weather_df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "id": "e58d1bc3",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Flattened DataFrame:\n",
+      "      Category    Product  Sales\n",
+      "0  Category 1  Product A    100\n",
+      "1  Category 1  Product B    200\n",
+      "2  Category 2  Product C    300\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Q9\n",
+    "multi_index_sales = pd.DataFrame({\n",
+    "    'Sales': [100, 200, 300],\n",
+    "}, index=pd.MultiIndex.from_tuples([('Category 1', 'Product A'), ('Category 1', 'Product B'), ('Category 2', 'Product C')]))\n",
+    "\n",
+    "# Flatten the multi-index\n",
+    "flattened_df = multi_index_sales.reset_index()\n",
+    "flattened_df.columns = ['Category', 'Product', 'Sales']\n",
+    "print(\"Flattened DataFrame:\\n\", flattened_df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "be5a9caf",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Average price by Category:\n",
+      "              Price\n",
+      "Category          \n",
+      "Electronics  750.0\n",
+      "Furniture    112.5\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Q10\n",
+    "product_data = {\n",
+    "    'Category': ['Electronics', 'Electronics', 'Furniture', 'Furniture'],\n",
+    "    'Product': ['Laptop', 'Phone', 'Table', 'Chair'],\n",
+    "    'Price': [1000, 500, 150, 75]\n",
+    "}\n",
+    "\n",
+    "product_df = pd.DataFrame(product_data)\n",
+    "\n",
+    "# Set multi-index\n",
+    "product_multi_index = product_df.set_index(['Category', 'Product'])\n",
+    "\n",
+    "# Calculate average price by category\n",
+    "average_price = product_multi_index.groupby(level='Category').mean()\n",
+    "print(\"Average price by Category:\\n\", average_price)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b871a4e0",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.12"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
